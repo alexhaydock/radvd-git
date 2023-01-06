@@ -1,0 +1,52 @@
+# Contributor: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=radvd
+pkgver=9000
+pkgrel=1
+pkgdesc="IPv6 router advertisement daemon"
+url="http://www.litech.org/radvd"
+arch="all"
+license="BSD with advertising"
+makedepends="flex bison libdaemon-dev linux-headers check-dev libbsd-dev autoconf automake"
+install="$pkgname.pre-install"
+subpackages="$pkgname-doc $pkgname-openrc"
+source="radvd-git-a6460662c6ac2b13307a8977ef068825b66fbce0.tar.gz
+	radvd.initd
+	radvd.confd
+	"
+
+# test failure on builders due to kernel issue
+case "$CARCH" in
+mips*)	options="!check";;
+esac
+
+build() {
+        ./autogen.sh
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc/ \
+		--with-check \
+		--with-pidfile=/run/radvd/radvd.pid
+	# work around parallel build issue
+	make gram.h && make
+}
+
+check() {
+	make -C "$builddir" check
+}
+
+package() {
+	make -j1 DESTDIR="$pkgdir" install
+	install -Dm755 "$srcdir"/radvd.initd "$pkgdir"/etc/init.d/radvd
+	install -Dm644 "$srcdir"/radvd.confd "$pkgdir"/etc/conf.d/radvd
+	install -Dm644 radvd.conf.example \
+		"$pkgdir"/usr/share/doc/radvd/radvd.conf.example
+}
+
+sha512sums="
+276ba11e2ff8e4a382234749fa6b7be238251b34827610eec66834566ffdf7a1e9e8da7ba29a9e95c9d014b16e047f7ed5a4ba5810e68cc4da7e36860cc5f587  radvd-git-a6460662c6ac2b13307a8977ef068825b66fbce0.tar.gz
+fd78249b8ae25d1c55fc0b5cc2b3dd202388c0ca7be2737ecbd33ed5cd3c8616858aa46350967350fe8e8c0032552126918c8b9c36b13d799f3c5d8fb576fdf8  radvd.initd
+31cca1d48e5f0c4fe96a7a32ca6339e7aa9e478f7e9086f05bbc79ca59b1637d99e46079d7be77ef717a8fb975fada7664058e3bc61117309025b72f3e87d294  radvd.confd
+"
