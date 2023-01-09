@@ -21,6 +21,7 @@ mips*)	options="!check";;
 esac
 
 build() {
+    #autoupdate
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
