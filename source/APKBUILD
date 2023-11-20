@@ -10,7 +10,7 @@ license="BSD with advertising"
 makedepends="flex bison libdaemon-dev linux-headers check-dev libbsd-dev autoconf automake"
 install="$pkgname.pre-install"
 subpackages="$pkgname-doc $pkgname-openrc"
-source="radvd-git-548271773fe66dd7b636071faa196a4bc0ef256d.tar.gz
+source="radvd-2.20_rc1.tar.gz
 	radvd.initd
 	radvd.confd
 	"
@@ -47,7 +47,7 @@ package() {
 }
 
 sha512sums="
-20ff1e1a7543a5cf46607d89d7a9b4548c53107ac184326fe52ed0f0a2538cc2eb4b7fd15acc6cffa124eb24d184695937d0498044f9ae321d385aab57c3041a  radvd-git-548271773fe66dd7b636071faa196a4bc0ef256d.tar.gz
+5bc8fa334de197becf1b755da31e395978a21e0a249ac0ae5cc64909cbb3840960a373c26f93f7e93b59d7d41a76ecc83142f3687663367f0cec087a8377ecb5  radvd-2.20_rc1.tar.gz
 fd78249b8ae25d1c55fc0b5cc2b3dd202388c0ca7be2737ecbd33ed5cd3c8616858aa46350967350fe8e8c0032552126918c8b9c36b13d799f3c5d8fb576fdf8  radvd.initd
 31cca1d48e5f0c4fe96a7a32ca6339e7aa9e478f7e9086f05bbc79ca59b1637d99e46079d7be77ef717a8fb975fada7664058e3bc61117309025b72f3e87d294  radvd.confd
 "

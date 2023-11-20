@@ -21,4 +21,3 @@ doas -u builder abuild-keygen -a -n
 doas -u builder abuild checksum
 
 doas -u builder abuild -r
-
